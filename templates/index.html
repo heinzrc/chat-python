@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<div id="chat-wrapper">
+    <div id="left">
+        <textarea class="ws-output" rows="20" id="chat-area" readonly></textarea>
+    </div>
+    <div id="right">
+      <label for="client_list">Connected Users:</label>
+      <ul id="client_list">
+      </ul>
+    </div>
+</div>
+<div>
+    <form id="input-wrapper"action="" method="POST">
+        <div id="left">
+            <input type="text" id="text-field" class="text-field"></input><br><br>
+        </div>
+        <div id="right">
+            <input id="button-container" type="submit" value="Send"/>
+        </div>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+<script type="text/javascript">
+  function timestamp() {
+    let today = (new Date()).toTimeString().substr(0,5)
+    let time = today
+    return time
+  }
+</script>
+<script type="text/javascript">
+    var socket = io.connect('http://' + document.domain + ':' + location.port, {'sync disconnect on unload': true });
+
+    socket.on( 'connect', function() {
+      let user = prompt("Enter Username:")
+
+      socket.emit( 'event', {
+        connection : true,
+        user_name : user,
+        time_sent : timestamp()
+      } )
+
+      var form = $( 'form' ).on( 'submit', function( e ) {
+        e.preventDefault()
+        let user_input = $( 'input.text-field' ).val()
+
+        socket.emit( 'event', {
+          user_name : user,
+          message : user_input,
+          time_sent : timestamp()
+        } )
+        document.getElementById("input-wrapper").reset();
+      } )
+    } )
+
+    socket.on( 'res', function( msg ) {
+      console.log( msg )
+      if( typeof msg.message !== 'undefined' ) {
+        $( "#chat-area" ).append( '[MESG]' + '[' + msg.time_sent + ']' + msg.user_name + ': ' + msg.message + '\n')
+      }else if( msg.connection && typeof msg.connection !== 'undefined' ) {
+        $( "#chat-area" ).append( '[CONN]' + '[' + msg.time_sent + ']' + msg.user_name + ': Connected to Chat\n')
+      }else if( !msg.connection && typeof msg.connection !== 'undefined') {
+        $( "#chat-area" ).append( '[CONN]' + '[' + msg.time_sent + ']' + msg.user_name + ': Disconnected from Chat\n')
+      }
+    })
+
+    socket.on( 'client_update', function( msg ){
+      var msgArray = []
+        var keys = Object.keys(msg)
+        keys.forEach(function(key){
+          msgArray.push(msg[key])
+        })
+        $("#client_list").empty()
+        for (let i = 0; i < msgArray.length; i++) {
+          $("#client_list").append(`<li>${msgArray[i]}</li>`)
+        }
+    })
+  </script>

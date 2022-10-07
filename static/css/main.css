@@ -1,0 +1,51 @@
+#client_list {
+    font-size: 24px;
+    font-family: monospace;
+}
+ul li::marker {
+    color: lawngreen;
+}
+#chat-wrapper {
+    display: flex;
+    height: 80%;
+    justify-content: Left;
+    align-items: center;
+}
+
+#left {
+    flex: 0 0 70%;
+}
+
+#right {
+    flex: 1;
+}
+
+#input-wrapper {
+    border-radius: 25px;
+    display: flex;
+    height: 20%;
+    justify-content: Left;
+    align-items: center;
+}
+
+#text-field {
+    resize: none;
+    font-size: 24px;
+    border-radius: 25px;
+    height: 60%;
+    width: 99%;
+}
+#button-container {
+    border-radius: 25px;
+    height: 30%;
+    Width: 30%;
+    background-color: #528add;
+    font-family: monospace;
+}
+
+#chat-area {
+    resize: none;
+    width:99%;
+    height:95%;
+    font-size: 24px
+}
