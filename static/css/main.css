@@ -18,6 +18,7 @@ ul li::marker {
 
 #right {
     flex: 1;
+    font-family: monospace;
 }
 
 #input-wrapper {
