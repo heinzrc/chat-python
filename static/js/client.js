@@ -39,13 +39,9 @@ socket.on( 'res', function( msg ) {
 })
 
 socket.on( 'client_update', function( msg ){
-    var msgArray = []
-      var keys = Object.keys(msg)
-      keys.forEach(function(key){
-        msgArray.push(msg[key])
-      })
-      $("#client_list").empty()
-      for (let i = 0; i < msgArray.length; i++) {
-        $("#client_list").append(`<li>${msgArray[i]}</li>`)
-      }
+  $("#client_list").empty()
+  var keys = Object.keys(msg)
+  keys.forEach(function(key){
+    $("#client_list").append(`<li>${msg[key]}</li>`)
+  })
 })

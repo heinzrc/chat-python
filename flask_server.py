@@ -13,10 +13,6 @@ def client_update():
 def main():
     return render_template('index.html')
 
-@app.route('/client_list', methods=['POST'])
-def client_list():
-    return jsonify('', render_template('client_list.html',Clients=clients))
-
 def recv(methods=['GET', 'POST']):
     print('message was received!!!')
 
