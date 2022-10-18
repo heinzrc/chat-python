@@ -32,10 +32,11 @@ def handle_event(res, methods=['GET', 'POST']):
 
 @socketio.on('disconnect')
 def disconnect():
-    #print(info['username']+' user disconnected.')
     currentime = datetime.datetime.now()
     time = currentime.strftime('%H:%M')
     json = { "connection": False, "user_name": clients.get(request.sid), "time_sent":time}
+    print("disconnection received: " + str(json))
+    
     del clients[request.sid]
     client_update()
     socketio.emit('res', json, callback=recv)

@@ -1,5 +1,5 @@
 function timestamp() {
-    let today = (new Date()).toTimeString().substr(0,5)
+    let today = (new Date()).toTimeString().substring(0,5)
     let time = today
     return time
 }
