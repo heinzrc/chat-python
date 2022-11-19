@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import datetime
 
@@ -17,7 +17,7 @@ def recv(methods=['GET', 'POST']):
     print('message was received!!!')
 
 @socketio.on('event')
-def handle_event(res, methods=['GET', 'POST']):
+def handle_event(res):
     try:
         if (res['connection']):
             clients.update({request.sid : res['user_name']})

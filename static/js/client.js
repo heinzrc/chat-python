@@ -7,7 +7,7 @@ var socket = io.connect('http://' + document.domain + ':' + location.port, {'syn
 
 socket.on( 'connect', function() {
     let user = prompt("Enter Username:")
-
+    
     socket.emit( 'event', {
       connection : true,
       user_name : user,
